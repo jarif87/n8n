@@ -1,0 +1,80 @@
+{
+  "name": "send gmail",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "f943faef-a131-43ce-8b00-8288aeafa7e4",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "sendTo": "sadikaljarif588@gmail.com",
+        "subject": "hello,world",
+        "emailType": "text",
+        "message": "Renowned for his larger-than-life exploits and an uncanny knack for leaving a mark wherever he goes, his story reads like a whirlwind of daring adventures, unexpected encounters, and a life lived far beyond the ordinary",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "66a6605c-38f4-452c-9299-7906b60c2f64",
+      "name": "Send a message",
+      "webhookId": "5715c537-ba5c-46e1-b5c7-4b6f51622006",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "KNmZmVFSPa4H1ev3",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "1. Manual trigger--> send an email to someone"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        48,
+        -240
+      ],
+      "typeVersion": 1,
+      "id": "ea1cfda8-9c74-4f04-9d96-916a95e460e4",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "c636f1f5-ed9c-4e63-be3f-e6c5b99579c7",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "4ffd6e5106a62540cb471a0a3485bce904e8cdd502b8c163bab7e501456bf17f"
+  },
+  "id": "HQDPNIG4ThvZJACe",
+  "tags": []
+}

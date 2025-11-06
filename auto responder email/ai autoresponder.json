@@ -1,0 +1,215 @@
+{
+  "name": "ai autoresponder",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Test Form",
+        "formDescription": "hello world on boarding form",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "First Name",
+              "placeholder": "Sadik",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Last Name",
+              "placeholder": "Jarif",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Email Address",
+              "fieldType": "email",
+              "placeholder": "Xyz@gmail.com",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Phone Number",
+              "fieldType": "number",
+              "placeholder": "016785",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "Design Preference",
+              "fieldType": "dropdown",
+              "fieldOptions": {
+                "values": [
+                  {
+                    "option": "Sleek"
+                  },
+                  {
+                    "option": "Minimalistic"
+                  },
+                  {
+                    "option": "Luxurious"
+                  },
+                  {
+                    "option": "Playful"
+                  }
+                ]
+              }
+            },
+            {
+              "fieldLabel": "Company Description",
+              "placeholder": "Civo is a cloud computing company specializing in Kubernetes hosting, GPU cloud services, and AI infrastructure, helping developers and businesses deploy, scale, and manage applications efficiently.",
+              "requiredField": true
+            },
+            {
+              "fieldLabel": "TimeLine",
+              "placeholder": "Three-Six Weeks"
+            }
+          ]
+        },
+        "options": {
+          "buttonLabel": "Submit"
+        }
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.3,
+      "position": [
+        0,
+        0
+      ],
+      "id": "3eb67997-3fed-45f3-bbfd-b8a04b26975a",
+      "name": "On form submission",
+      "webhookId": "2c00d0c7-c342-4a29-abad-36a4d1b1d262"
+    },
+    {
+      "parameters": {
+        "content": "Form fill--> ai autoresponder",
+        "height": 96
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        192,
+        -160
+      ],
+      "typeVersion": 1,
+      "id": "fb84abb7-7bbe-4015-a5af-a7d4c9f37791",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=you are helpful,intelligent email writing assistant.your task is to customize an email using the following data:\nFirst Name: {{ $json['First Name'] }}\nLast name: {{ $json['Last Name'] }}\nEmail Address: {{ $json['Email Address'] }}\nPhone Number: {{ $json['Phone Number'] }}\nDesign Preference:{{ $json['Design Preference'] }}\nCompany Description:{{ $json['Company Description'] }}\nTimeLine:{{ $json.TimeLine }}\n\nHi {First Name},\n\nThank you for submitting your form. I’ve received your details and noted your phone number as {phone number} and email address as {email address}.\n\nI also appreciate you sharing your design preference (“{Design Preference}”) and company description (“{Company Description}”). Your indicated timeline is “{TimeLine}.” Everything seems to be in order, but please let me know if you’d like to clarify or modify any details.\n\n(Do not include a subject line in this email.)\n\nBest regards,\nJarif"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "cd193d24-7245-470e-a4a9-d4649488a0ff",
+      "name": "Message a model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "bcOc446YzUDQkU3P",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "sadikaljari8@gmail.com",
+        "subject": "hello sadik",
+        "emailType": "text",
+        "message": "={{ $json.content.parts[0].text }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        560,
+        0
+      ],
+      "id": "3960bfef-6b8a-46d1-a4c9-ac3497dc031a",
+      "name": "Send a message",
+      "webhookId": "b188a3bc-8518-40c7-995f-c3b571fffd4c",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "KNmZmVFSPa4H1ev3",
+          "name": "Gmail account"
+        }
+      }
+    }
+  ],
+  "pinData": {
+    "On form submission": [
+      {
+        "json": {
+          "First Name": "sadik",
+          "Last Name": "hello",
+          "Email Address": "sadikaljari8@gmail.com",
+          "Phone Number": 0,
+          "Design Preference": "Minimalistic",
+          "Company Description": "civo is abrand",
+          "TimeLine": "two weeks",
+          "submittedAt": "2025-11-07T01:10:00.046+06:00",
+          "formMode": "test"
+        }
+      }
+    ],
+    "Message a model": [
+      {
+        "json": {
+          "content": {
+            "parts": [
+              {
+                "text": "Hi sadik,\n\nThank you for submitting your form. I’ve received your details and noted your phone number as 0 and email address as sadikaljarif588@gmail.com.\n\nI also appreciate sharing your design preference (“Minimalistic”) and company description (“civo is abrand”). Your indicated timeline is “two weeks.” Everything seems to be in order, but please let me know if you’d like to clarify or modify any details.\n\nBest regards,\nJarif"
+              }
+            ],
+            "role": "model"
+          },
+          "finishReason": "STOP",
+          "index": 0
+        }
+      }
+    ]
+  },
+  "connections": {
+    "On form submission": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "f48d3f79-33b3-4afb-b47b-e703dc54df50",
+  "meta": {
+    "instanceId": "4ffd6e5106a62540cb471a0a3485bce904e8cdd502b8c163bab7e501456bf17f"
+  },
+  "id": "AybdqUm6i6MJk0in",
+  "tags": []
+}
