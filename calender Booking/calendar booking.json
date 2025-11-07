@@ -1,0 +1,311 @@
+{
+  "name": "calendar booking",
+  "nodes": [
+    {
+      "parameters": {
+        "events": [
+          "BOOKING_CREATED"
+        ],
+        "options": {}
+      },
+      "type": "n8n-nodes-base.calTrigger",
+      "typeVersion": 2,
+      "position": [
+        0,
+        0
+      ],
+      "id": "d8a0db9b-21d6-424c-805c-8abdfc1e2dc9",
+      "name": "Cal.com Trigger",
+      "webhookId": "076883a4-844b-41dc-933e-df6a65dcb673",
+      "credentials": {
+        "calApi": {
+          "id": "q3Nw00GXPiYyNdWO",
+          "name": "Cal account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ $json.organizer.email }}",
+        "subject": "Recent Meeting",
+        "message": "=Hi {{ $json.organizer.name }},\n\nI hope you're doing well. I’d like to schedule a short demo to walk you through our AI Model Evaluation project.\nDuring the session, I’ll demonstrate how we compare multiple LLMs using embeddings, cosine similarity, and structured ranking prompts to assess clarity, creativity, and correctness.\n\nPlease let me know a convenient time for you this week.\nLooking forward to your response and seeing you at {{ $json.startTime }}.\n\nBest regards,\nSadik Al Jarif\nFounder, Nika Spark\n[Join Meeting]{{ $json.metadata.videoCallUrl }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        208,
+        0
+      ],
+      "id": "21febd5b-8e82-486b-a74e-6f592c591313",
+      "name": "Send a message",
+      "webhookId": "ecf2f6b0-3519-4e37-bfaa-ba1d611d0ad6",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "KNmZmVFSPa4H1ev3",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "team": "90182005745",
+        "space": "90187935552",
+        "folderless": true,
+        "list": "901813053941",
+        "name": "={{ $('Cal.com Trigger').item.json.attendees[0].firstName }} {{ $('Cal.com Trigger').item.json.attendees[0].lastName }}",
+        "additionalFields": {
+          "customFieldsJson": "=[{\"id\":\"83a98adf-ada6-439d-832f-0424b742d153\",\"value\":\"https://app.cal.com/video/iJAFDh5LJzAHkVkTjYkqJK\"}] ",
+          "status": "in progress"
+        }
+      },
+      "type": "n8n-nodes-base.clickUp",
+      "typeVersion": 1,
+      "position": [
+        400,
+        0
+      ],
+      "id": "a8a1b35e-cc8e-4def-aa3c-eacf1a879d9c",
+      "name": "Create a task",
+      "credentials": {
+        "clickUpOAuth2Api": {
+          "id": "IY9QyoYjLJU8C4Xf",
+          "name": "ClickUp account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "authentication": "oAuth2",
+        "resource": "list",
+        "team": "90182005745",
+        "space": "90187935552",
+        "folderless": true,
+        "list": "901813053941"
+      },
+      "type": "n8n-nodes-base.clickUp",
+      "typeVersion": 1,
+      "position": [
+        208,
+        -208
+      ],
+      "id": "4103533c-19bf-4093-9b9a-8817166cf146",
+      "name": "Get custom fields from a list",
+      "credentials": {
+        "clickUpOAuth2Api": {
+          "id": "Fp1o2FVE3Pfi3Qsx",
+          "name": "ClickUp account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "Calender Booking-->reply--> update"
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        144,
+        -432
+      ],
+      "typeVersion": 1,
+      "id": "07c719d6-67a3-430a-a9f5-974d253413b7",
+      "name": "Sticky Note"
+    }
+  ],
+  "pinData": {
+    "Cal.com Trigger": [
+      {
+        "json": {
+          "triggerEvent": "BOOKING_CREATED",
+          "createdAt": "2025-11-07T14:23:28.116Z",
+          "bookerUrl": "https://cal.com",
+          "title": "quick meeting between Sadik Al Jarif and Sadik Al Jarif",
+          "startTime": "2025-11-10T03:00:00Z",
+          "endTime": "2025-11-10T03:05:00Z",
+          "additionalNotes": "",
+          "type": "quick-meeting",
+          "description": "****this is a good meeting i hope everyone is welll****",
+          "eventTypeId": 3850361,
+          "hideCalendarNotes": false,
+          "hideCalendarEventDetails": false,
+          "hideOrganizerEmail": false,
+          "schedulingType": null,
+          "seatsPerTimeSlot": null,
+          "seatsShowAttendees": true,
+          "seatsShowAvailabilityCount": true,
+          "customReplyToEmail": null,
+          "disableRescheduling": false,
+          "disableCancelling": false,
+          "organizer": {
+            "id": 1901811,
+            "name": "Sadik Al Jarif",
+            "email": "sadikaljarif05@gmail.com",
+            "username": "sadik-al-jarif-pt5kip",
+            "timeZone": "Asia/Dhaka",
+            "language": {
+              "locale": "en"
+            },
+            "timeFormat": "h:mma",
+            "utcOffset": 360
+          },
+          "attendees": [
+            {
+              "email": "sadikaljarif05@gmail.com",
+              "name": "Sadik Al Jarif",
+              "firstName": "",
+              "lastName": "",
+              "timeZone": "Asia/Dhaka",
+              "language": {
+                "locale": "en"
+              },
+              "utcOffset": 360
+            }
+          ],
+          "customInputs": {},
+          "responses": {
+            "name": {
+              "label": "your_name",
+              "value": "Sadik Al Jarif",
+              "isHidden": false
+            },
+            "email": {
+              "label": "email_address",
+              "value": "sadikaljarif05@gmail.com",
+              "isHidden": false
+            },
+            "attendeePhoneNumber": {
+              "label": "phone_number",
+              "isHidden": true
+            },
+            "location": {
+              "label": "location",
+              "value": {
+                "optionValue": "",
+                "value": "integrations:daily"
+              },
+              "isHidden": false
+            },
+            "title": {
+              "label": "what_is_this_meeting_about",
+              "isHidden": true
+            },
+            "notes": {
+              "label": "additional_notes",
+              "isHidden": false
+            },
+            "guests": {
+              "label": "additional_guests",
+              "value": [],
+              "isHidden": false
+            },
+            "rescheduleReason": {
+              "label": "reason_for_reschedule",
+              "isHidden": false
+            }
+          },
+          "userFieldsResponses": {},
+          "location": "integrations:daily",
+          "destinationCalendar": [
+            {
+              "id": 941166,
+              "integration": "google_calendar",
+              "externalId": "sadikaljarif05@gmail.com",
+              "primaryEmail": "sadikaljarif05@gmail.com",
+              "userId": 1901811,
+              "eventTypeId": null,
+              "credentialId": 1498039,
+              "createdAt": "2025-11-07T14:04:51.206Z",
+              "updatedAt": "2025-11-07T14:04:51.206Z",
+              "delegationCredentialId": null,
+              "domainWideDelegationCredentialId": null
+            }
+          ],
+          "iCalUID": "iJAFDh5LJzAHkVkTjYkqJK@Cal.com",
+          "iCalSequence": 0,
+          "requiresConfirmation": false,
+          "oneTimePassword": null,
+          "uid": "iJAFDh5LJzAHkVkTjYkqJK",
+          "conferenceData": {
+            "createRequest": {
+              "requestId": "2db644eb-37a5-581a-99fa-ebe6ce513834"
+            }
+          },
+          "videoCallData": {
+            "type": "daily_video",
+            "id": "GWkPjPyaFhuFAlpADDjn",
+            "password": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyIjoiR1drUGpQeWFGaHVGQWxwQUREam4iLCJleHAiOjE3NjM5NTM1MDAsIm8iOnRydWUsImVydWkiOmZhbHNlLCJkIjoiYmJkOThhNzEtMTljOS00YmIxLWE1YzUtY2FmMWVjNWJkMTA1IiwiaWF0IjoxNzYyNTI1NDA3fQ.lrr5MSSfZ0WOsY8bQeLUfSidVnzGkAMGama4QM1MOMA",
+            "url": "https://meetco.daily.co/GWkPjPyaFhuFAlpADDjn"
+          },
+          "appsStatus": [
+            {
+              "appName": "daily-video",
+              "type": "daily_video",
+              "success": 1,
+              "failures": 0,
+              "errors": []
+            },
+            {
+              "appName": "google-calendar",
+              "type": "google_calendar",
+              "success": 1,
+              "failures": 0,
+              "errors": [],
+              "warnings": []
+            }
+          ],
+          "eventTitle": "quick meeting",
+          "eventDescription": "****this is a good meeting i hope everyone is welll****",
+          "price": 0,
+          "currency": "usd",
+          "length": 5,
+          "bookingId": 12548130,
+          "metadata": {
+            "videoCallUrl": "https://app.cal.com/video/iJAFDh5LJzAHkVkTjYkqJK"
+          },
+          "status": "ACCEPTED"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Cal.com Trigger": {
+      "main": [
+        [
+          {
+            "node": "Send a message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send a message": {
+      "main": [
+        [
+          {
+            "node": "Create a task",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a task": {
+      "main": [
+        []
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "14ad72c4-9378-4e16-ae4a-b1f68fa9d413",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "4ffd6e5106a62540cb471a0a3485bce904e8cdd502b8c163bab7e501456bf17f"
+  },
+  "id": "ZiYSgVXgivOnSJgJ",
+  "tags": []
+}
